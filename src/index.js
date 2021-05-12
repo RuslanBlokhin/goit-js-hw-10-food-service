@@ -1,16 +1,55 @@
 import './styles.css';
-// console.log('run');
-import './js/test';
+import './js/menu';
 
-// import print from './js/test';  Дефолтный импорт
-// console.log(print);
+const chekboxTheme = document.querySelector('#theme-switch-toggle');
 
-// print('zigzag');
+chekboxTheme.addEventListener('change', changeTheme);
 
-// import { text, printText } from './js/test';
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
 
-import * as object from './js/test';
+function changeTheme(event) {
+  if (event.target.checked) {
+    updateLocaleStorage('theme', Theme.DARK);
+    replaceTheme(Theme.DARK, Theme.LIGHT);
+  } else {
+    updateLocaleStorage('theme', Theme.LIGHT);
+    replaceTheme(Theme.LIGHT, Theme.DARK);
+  }
+}
 
-console.log(object.text);
+function replaceTheme(oldTheme, newTheme) {
+  document.body.classList.add(oldTheme);
+  document.body.classList.remove(newTheme);
+}
 
-object.printText('lhpm');
+function updateLocaleStorage(key, value) {
+  localStorage.setItem(key, value);
+}
+
+function saveTheme() {
+  const theme = localStorage.getItem('theme') ?? Theme.LIGHT;
+  document.body.classList.add(theme);
+  chekboxTheme.checked = theme === Theme.DARK;
+}
+
+saveTheme();
+
+// import './styles.css';
+// // console.log('run');
+// import './js/test';
+
+// // import print from './js/test';  Дефолтный импорт
+// // console.log(print);
+
+// // print('zigzag');
+
+// // import { text, printText } from './js/test';
+
+// import * as object from './js/test';
+
+// console.log(object.text);
+
+// object.printText('lhpm');
